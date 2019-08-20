@@ -1,0 +1,17 @@
+.small-logo{
+    width: 250px;
+}
+
+.fab{
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    border-radius: 50%;
+    background: #007bff;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
