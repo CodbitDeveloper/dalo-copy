@@ -42,7 +42,7 @@
 	</ul>
 	
 	<input type='radio' value="" name="" onclick="javascript:toggleAttributeCustom();"/>
-	<b> Quickly Locate attribute with autocomplete input</b>
+	<b>Quickly Locate attribute with autocomplete input</b>
 	<br/>
 
 		<ul>

@@ -18,7 +18,7 @@
  * Authors:	Liran Tal <liran@enginx.com>
  *
  *********************************************************************************************************
- */
+ 
  
     include ("library/checklogin.php");
     $operator = $_SESSION['operator_user'];
@@ -104,7 +104,7 @@
 
 	/* we are searching for both kind of attributes for the password, being User-Password, the more
 	   common one and the other which is Password, this is also done for considerations of backwards
-	   compatibility with version 0.7        */
+	   compatibility with version 0.7        
 
 	$sql = "SELECT distinct(".$configValues['CONFIG_DB_TBL_RADCHECK'].".username),".$configValues['CONFIG_DB_TBL_RADCHECK'].".value,
 		".$configValues['CONFIG_DB_TBL_RADCHECK'].".id,".$configValues['CONFIG_DB_TBL_RADUSERGROUP'].".groupname as groupname, attribute, ".
@@ -124,9 +124,9 @@
 	$logDebugSQL = "";
 	$logDebugSQL .= $sql . "\n";
 
-	/* START - Related to pages_numbering.php */
+	/* START - Related to pages_numbering.php 
 	$maxPage = ceil($numrows/$rowsPerPage);
-	/* END */
+	/* END 
 
 	echo "<form name='listallusers' method='get' action='mng-del.php' >";
 
@@ -148,7 +148,7 @@
 		";
 
 
-	/* drawing the number links */
+	/* drawing the number links 
 	if ($configValues['CONFIG_IFACE_TABLES_LISTING_NUM'] == "yes")
 		setupNumbering($numrows, $rowsPerPage, $pageNum, $orderBy, $orderType);
 
@@ -276,4 +276,222 @@
 
 </body>
 </html>
- 
+ */
+?>
+
+ <?php 
+	include ("library/checklogin.php");
+	$operator = $_SESSION['operator_user'];
+
+	include('library/check_operator_perm.php');
+
+	// set session's page variable
+	$_SESSION['PREV_LIST_PAGE'] = $_SERVER['REQUEST_URI'];
+	
+
+	//setting values for the order by and order type variables
+	isset($_REQUEST['orderBy']) ? $orderBy = $_REQUEST['orderBy'] : $orderBy = "id";
+	isset($_REQUEST['orderType']) ? $orderType = $_REQUEST['orderType'] : $orderType = "asc";
+	
+	include_once('library/config_read.php');
+	$log = "visited page: ";
+	$logQuery = "performed query for listing of records on page: ";
+	
+	include ("menu-home.php");
+
+	include 'include/management/pages_common.php';
+	include 'library/opendb.php';
+	include 'include/management/pages_numbering.php';
+
+	$_SESSION['reportTable'] = $configValues['CONFIG_DB_TBL_RADCHECK'];
+        $_SESSION['reportQuery'] = " WHERE UserName LIKE '%'";
+        $_SESSION['reportType'] = "usernameListGeneric";
+
+	$orderBy = $dbSocket->escapeSimple($orderBy);
+	$orderType = $dbSocket->escapeSimple($orderType);
+        
+	//orig: used as maethod to get total rows - this is required for the pages_numbering.php page
+	$sql = "SELECT distinct(".$configValues['CONFIG_DB_TBL_RADCHECK'].".username),".$configValues['CONFIG_DB_TBL_RADCHECK'].".value,
+		".$configValues['CONFIG_DB_TBL_RADCHECK'].".id,".$configValues['CONFIG_DB_TBL_RADUSERGROUP'].".groupname as groupname, attribute FROM 
+		".$configValues['CONFIG_DB_TBL_RADCHECK']." LEFT JOIN ".$configValues['CONFIG_DB_TBL_RADUSERGROUP']." ON 
+		".$configValues['CONFIG_DB_TBL_RADCHECK'].".username=".$configValues['CONFIG_DB_TBL_RADUSERGROUP'].".username 
+		WHERE (Attribute='Auth-Type') or (Attribute LIKE '%-Password') GROUP BY UserName";
+	$res = $dbSocket->query($sql);
+	$numrows = $res->numRows();
+
+	/* we are searching for both kind of attributes for the password, being User-Password, the more
+	   common one and the other which is Password, this is also done for considerations of backwards
+	   compatibility with version 0.7        */
+
+	$sql = "SELECT distinct(".$configValues['CONFIG_DB_TBL_RADCHECK'].".username),".$configValues['CONFIG_DB_TBL_RADCHECK'].".value,
+		".$configValues['CONFIG_DB_TBL_RADCHECK'].".id,".$configValues['CONFIG_DB_TBL_RADUSERGROUP'].".groupname as groupname, attribute, ".
+		$configValues['CONFIG_DB_TBL_DALOUSERINFO'].".firstname, ".$configValues['CONFIG_DB_TBL_DALOUSERINFO'].".lastname
+		, IFNULL(disabled.username,0) as disabled
+		 FROM  
+		".$configValues['CONFIG_DB_TBL_RADCHECK']." LEFT JOIN ".$configValues['CONFIG_DB_TBL_RADUSERGROUP']." ON 
+		".$configValues['CONFIG_DB_TBL_RADCHECK'].".username=".$configValues['CONFIG_DB_TBL_RADUSERGROUP'].".username
+ 		LEFT JOIN ".$configValues['CONFIG_DB_TBL_DALOUSERINFO']."
+		 ON ".$configValues['CONFIG_DB_TBL_RADCHECK'].".username=".$configValues['CONFIG_DB_TBL_DALOUSERINFO'].".username
+		LEFT JOIN ".$configValues['CONFIG_DB_TBL_RADUSERGROUP']." disabled
+		 ON disabled.username=".$configValues['CONFIG_DB_TBL_DALOUSERINFO'].".username AND disabled.groupname = 'daloRADIUS-Disabled-Users' 
+ 		WHERE (".$configValues['CONFIG_DB_TBL_RADCHECK'].".username=userinfo.username) AND Attribute IN ('Cleartext-Password', 'Auth-Type','User-Password', 
+ 			'Crypt-Password', 'MD5-Password', 'SMD5-Password', 'SHA-Password', 'SSHA-Password', 'NT-Password', 'LM-Password', 'SHA1-Password', 'CHAP-Password', 
+ 			'NS-MTA-MD5-Password') GROUP by ".$configValues['CONFIG_DB_TBL_RADCHECK'].".Username ORDER BY $orderBy $orderType LIMIT $offset, $rowsPerPage";
+	$res = $dbSocket->query($sql);
+	$logDebugSQL = "";
+	$logDebugSQL .= $sql . "\n";
+
+	/* START - Related to pages_numbering.php */
+	$maxPage = ceil($numrows/$rowsPerPage);
+	/* END */
+ ?>
+<div class="page-content">
+	<div class="container">
+		<div class="card content-area">
+			<div class="card-innr">
+				<div class="card-head">
+					<h4 class="card-title">Users</h4>
+				</div>
+				<?php 
+					echo "<form name='listallusers' method='get' action='mng-del.php' >";
+
+					echo "<table border='0' class='table1 table table-striped table-hover'>\n";
+					echo "
+									<thead>
+											<tr>
+											<th colspan='10' align='left'> 
+							<br/>
+								<input class='btn btn-danger' type='button' value='Delete' onClick='javascript:removeCheckbox(\"listallusers\",\"mng-del.php\")' />
+								<input class='btn btn-warning' type='button' value='Disable' onClick='javascript:disableCheckbox(\"listallusers\",\"include/management/userOperations.php\")' />
+								<input class='btn btn-success' type='button' value='Enable' onClick='javascript:enableCheckbox(\"listallusers\",\"include/management/userOperations.php\")' />
+										<input class='btn btn-light' type='button' value='CSV Export'onClick=\"javascript:window.location.href='include/management/fileExport.php?reportFormat=csv'\"/>
+
+								<br/><br/>
+						";
+					echo "
+							</th>
+							</tr>
+							</thead>
+							";
+					$curOrderType = $orderType;
+						if ($orderType == "asc") {
+								$orderType = "desc";
+						} else  if ($orderType == "desc") {
+								$orderType = "asc";
+						}
+
+					echo "<thread> <tr>
+						<th scope='col'> 
+						<input type='checkbox' onchange='handleChange(this)'>&nbsp;&nbsp;<a title='Sort' class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?orderBy=id&orderType=$orderType\">
+						".t('all','ID')."</a>
+						</th>
+
+						<th scope='col'> 
+						".t('all','Name')."</a>
+						</th>
+						
+						<th scope='col'> 
+						<a title='Sort' class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?orderBy=Username&orderType=$orderType\">
+						".t('all','Username')."</a>
+						</th>
+
+						<th scope='col'> 
+						<a title='Sort' class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?orderBy=Value&orderType=$orderType\">
+						".t('all','Password')."</a>
+						</th>
+
+						<th scope='col'> 
+						<a title='Sort' class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?orderBy=Groupname&orderType=$orderType\">
+						".t('title','Groups')."</a>
+						</th>
+						</tr> </thread>";
+
+					while($row = $res->fetchRow()) {
+
+						printqn("
+							<td> <input type='checkbox' name='username[]' value='$row[0]'>&nbsp;&nbsp; $row[2]</td>
+							<td>$row[5] $row[6]</td>
+							<td> 
+						");
+
+
+						if ($row[7] !== '0')
+							echo "<i class='fas fa-circle text-danger'></i>";
+						else
+							echo "<i class='fas fa-circle text-success'></i>";
+
+
+						$js = "javascript:ajaxGeneric('include/management/retUserInfo.php','retBandwidthInfo','divContainerUserInfo','username=".urlencode($row[0])."');";
+						$content =  '<a class="toolTip" href="mng-edit.php?username='.urlencode($row[0]).'">'.t('Tooltip','UserEdit').'</a>';
+						$str = addToolTipBalloon(array(
+													'content' => $content,
+													'onClick' => $js,
+													'value' => $row[0],
+													'divId' => 'divContainerUserInfo',
+						
+											));
+											
+						echo "$str </td>";
+						
+						if ($configValues['CONFIG_IFACE_PASSWORD_HIDDEN'] == "yes") {
+							echo "<td>[Password is hidden]</td>";
+						} else {
+							echo "<td>$row[1]</td>";
+						}
+						echo "
+							<td>$row[3]</td>
+						</tr>";
+					}
+
+					echo "
+									<tfoot>
+											<tr>
+											<th colspan='10' align='left'> 
+					";
+					setupLinks($pageNum, $maxPage, $orderBy, $curOrderType);
+					echo "							</th>
+											</tr>
+									</tfoot>
+						";
+
+					echo "</table>";
+					echo "</form>";
+
+					include 'library/closedb.php';
+
+					?>
+
+
+
+					<?php
+					include('include/config/logging.php');
+					?>
+					</div>
+				</div>
+			</div>
+		</div><!-- .card -->
+	</div><!-- .container -->
+</div><!-- .page-content -->
+
+<script src="assets/js/jquery.bundle49f7.js?ver=104"></script>
+<script src="assets/js/script49f7.js?ver=104"></script>
+
+<a href="mng-new-quick.php">
+	<div class="fab">
+		<i class="fas fa-plus"></i>
+	</div>
+</a>
+</body>
+<script src="library/javascript/pages_common.js" type="text/javascript"></script>
+<script type="text/javascript" src="library/javascript/ajax.js"></script>
+<script type="text/javascript" src="library/javascript/ajaxGeneric.js"></script>
+<script>
+	function handleChange(e){
+		if(e.checked == true){
+			SetChecked(1,'username[]','listallusers')
+		}else{
+			SetChecked(0,'username[]','listallusers')
+		}
+	}
+</script>
+</html>

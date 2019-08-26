@@ -41,12 +41,11 @@
 		$password = $_POST['password'];
 		$passwordType = $_POST['passwordType'];
 		$groups = $_POST['groups'];
-		$maxallsession = $_POST['maxallsession'];
+		$maxallsession = $_POST['maxallsession'] * 2592000;
 		$expiration = $_POST['expiration'];
-		$sessiontimeout = $_POST['sessiontimeout'];
-		$idletimeout = $_POST['idletimeout'];
-		$simultaneoususe = $_POST['simultaneoususe'];
-		$framedipaddress = $_POST['framedipaddress'];
+		$sessiontimeout = 86400;
+		$idletimeout = 3600;
+		$simultaneoususe = 4;
 
 
 		isset($_POST['firstname']) ? $firstname = $_POST['firstname'] : $firstname = "";
@@ -267,258 +266,117 @@
     $log = "visited page: ";
 
 	
-	if ($configValues['CONFIG_IFACE_PASSWORD_HIDDEN'] == "yes")
+	if ($configValues['CONFIG_IFACE_PASSWORD_HIDDEN'] == "yes"){
 		$hiddenPassword = "type=\"password\"";
-
-
-?>
-
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-<title>daloRADIUS</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="css/1.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" type="text/css" href="library/js_date/datechooser.css">
-<!--[if lte IE 6.5]>
-<link rel="stylesheet" type="text/css" href="library/js_date/select-free.css"/>
-<![endif]-->
-</head>
-<script src="library/js_date/date-functions.js" type="text/javascript"></script>
-<script src="library/js_date/datechooser.js" type="text/javascript"></script>
-<script src="library/javascript/pages_common.js" type="text/javascript"></script>
-<script src="library/javascript/productive_funcs.js" type="text/javascript"></script>
-
-<script type="text/javascript" src="library/javascript/ajax.js"></script>
-<script type="text/javascript" src="library/javascript/ajaxGeneric.js"></script>
-
-<?php
-	include_once ("library/tabber/tab-layout.php");
-?>
-
-<?php
-
-	include ("menu-mng-users.php");
+	}
 	
-?>
-
-	<div id="contentnorightbar">
-
-		<h2 id="Intro"><a href="#" onclick="javascript:toggleShowDiv('helpPage')"><?php echo t('Intro','mngnewquick.php') ?>
-		<h144>&#x2754;</h144></a></h2>
-
-		<div id="helpPage" style="display:none;visibility:visible" >
-			<?php echo t('helpPage','mngnewquick') ?>
-			<br/>
-		</div>
-		<?php
-			include_once('include/management/actionMessages.php');
-		?>
-		
-		<form name="newuser" action="mng-new-quick.php" method="post" >
-<div class="tabber">
-
-     <div class="tabbertab" title="<?php echo t('title','AccountInfo'); ?>">
-
-        <fieldset>
-
-			<h302> <?php echo t('title','AccountInfo'); ?> </h302>
-			<br/>
-		
-		<ul>
-
-		<li class='fieldset'>
-		<label for='username' class='form'><?php echo t('all','Username')?></label>
-		<input name='username' type='text' id='username' value='' tabindex=100  />
-		<input type='button' value='Random' class='button' onclick="javascript:randomAlphanumeric('username',8,<?php
-		echo "'".$configValues['CONFIG_USER_ALLOWEDRANDOMCHARS']."'" ?>)" />
-		<img src='images/icons/comment.png' alt='Tip' border='0' onClick="javascript:toggleShowDiv('usernameTooltip')" />
-
-		<div id='usernameTooltip'  style='display:none;visibility:visible' class='ToolTip'>
-			<img src='images/icons/comment.png' alt='Tip' border='0' />
-			<?php echo t('Tooltip','usernameTooltip') ?>
-		</div>
-		</li>
-
-		<li class='fieldset'>
-		<label for='password' class='form'><?php echo t('all','Password')?></label>
-		<input name='password' type='text' id='password' value='' <?php if (isset($hiddenPassword)) 
-			echo $hiddenPassword ?> tabindex=101 />
-		<input type='button' value='Random' class='button' onclick="javascript:randomAlphanumeric('password',8,<?php
-		echo "'".$configValues['CONFIG_USER_ALLOWEDRANDOMCHARS']."'" ?>)" />
-		<img src='images/icons/comment.png' alt='Tip' border='0' onClick="javascript:toggleShowDiv('passwordTooltip')" />
-
-		<div id='passwordTooltip'  style='display:none;visibility:visible' class='ToolTip'>
-			<img src='images/icons/comment.png' alt='Tip' border='0' />
-			<?php echo t('Tooltip','passwordTooltip') ?>
-		</div>
-		</li>
-
-		<li class='fieldset'>
-		<label for='passwordType' class='form'><?php echo t('all','PasswordType')?> </label>
-		<select class='form' tabindex=102 name='passwordType' >
-			<option value='Cleartext-Password'>Cleartext-Password</option>
-			<option value='User-Password'>User-Password</option>
-			<option value='Crypt-Password'>Crypt-Password</option>
-			<option value='MD5-Password'>MD5-Password</option>
-			<option value='SHA1-Password'>SHA1-Password</option>
-			<option value='CHAP-Password'>CHAP-Password</option>
-		</select>
-		<br />
-		</li>
-
-		<li class='fieldset'>
-		<label for='group' class='form'><?php echo t('all','Group')?></label>
-		<?php   
-			include_once 'include/management/populate_selectbox.php';
-			populate_groups("Select Groups","groups[]");
-		?>
-
-                <a class='tablenovisit' href='#'
-                        onClick="javascript:ajaxGeneric('include/management/dynamic_groups.php','getGroups','divContainerGroups',genericCounter('divCounter')+'&elemName=groups[]');">Add</a>
-
-		<img src='images/icons/comment.png' alt='Tip' border='0' onClick="javascript:toggleShowDiv('group')" />
-
-                <div id='divContainerGroups'>
-                </div>
-
-
-		<div id='groupTooltip'  style='display:none;visibility:visible' class='ToolTip'>
-			<img src='images/icons/comment.png' alt='Tip' border='0' />
-			<?php echo t('Tooltip','groupTooltip') ?>
-		</div>
-		</li>
-
-		<li class='fieldset'>
-		<br/>
-                <hr><br/>
-		<input type="submit" name="submit" value="<?php echo t('buttons','apply')?>" 
-			onclick = "javascript:small_window(document.newuser.username.value, 
-			document.newuser.password.value, document.newuser.maxallsession.value);" tabindex=10000 class='button' />
-		</li>
-		</ul>
-        </fieldset>
-
-	<br/>
-
-	<fieldset>
-
-		<h302> <?php echo t('title','Attributes'); ?> </h302>
-	<br/>
-
-		<label for='simultaneoususe' class='form'><?php echo t('all','SimultaneousUse')?></label>
-		<input name='simultaneoususe' type='text' value='' tabindex=106 />
-		<br/>
-
-		<label for='framedipaddress' class='form'><?php echo t('all','FramedIPAddress')?></label>
-		<input name='framedipaddress' type='text' value='' tabindex=107 />
-		<br/>
-
-		<label for='expiration' class='form'><?php echo t('all','Expiration')?></label>		
-		<input value='' id='expiration' name='expiration'  tabindex=108 />
-		<img src="library/js_date/calendar.gif" onclick="showChooser(this, 'expiration', 'chooserSpan', 1950, <?php echo date('Y', time());?>, 'd M Y', false);">
-		<br/>
-
-		<label for='sessiontimeout' class='form'><?php echo t('all','SessionTimeout')?></label>
-		<input value='' id='sessiontimeout' name='sessiontimeout'  tabindex=109 />
-		<select onChange="javascript:setText(this.id,'sessiontimeout')" id="option0" class='form' >
-			<option value="1">calculate time</option>
-			<option value="1">seconds</option>
-			<option value="60">minutes</option>
-			<option value="3600">hours</option>
-			<option value="86400">days</option>
-			<option value="604800">weeks</option>
-			<option value="2592000">months (30 days)</option>
-		</select>
-		<br/>
-
-		<label for='idletimeout' class='form'><?php echo t('all','IdleTimeout')?></label>
-		<input value='' id='idletimeout' name='idletimeout'  tabindex=110 />
-		<select onChange="javascript:setText(this.id,'idletimeout')" id="option1" class='form' >
-			<option value="1">calculate time</option>
-			<option value="1">seconds</option>
-			<option value="60">minutes</option>
-			<option value="3600">hours</option>
-			<option value="86400">days</option>
-			<option value="604800">weeks</option>
-			<option value="2592000">months (30 days)</option>
-		</select>
-		<br/>
-
-		<label for='maxallsession' class='form'><?php 
-			echo t('all','MaxAllSession') ?></label>
-		<input value='' id='maxallsession' name='maxallsession'  tabindex=111 />
-		<select onChange="javascript:setText(this.id,'maxallsession')" id="option2" class='form' >
-			<option value="1">calculate time</option>
-			<option value="1">seconds</option>
-			<option value="60">minutes</option>
-			<option value="3600">hours</option>
-			<option value="86400">days</option>
-			<option value="604800">weeks</option>
-			<option value="2592000">months (30 days)</option>
-		</select>
-		<br/>
-
-		<br/>	
-	</fieldset>
-
-	<div id="chooserSpan" class="dateChooser select-free" style="display: none; visibility: hidden; width: 160px;"></div>
-
-        </div>
-
-
-     <div class="tabbertab" title="<?php echo t('title','UserInfo'); ?>">
-
-        <?php
-		$customApplyButton = "<input type=\"submit\" name=\"submit\" value=\"".t('buttons','apply')."\"
-		                        onclick = \"javascript:small_window(document.newuser.username.value,
-		                        document.newuser.password.value, document.newuser.maxallsession.value);\" tabindex=10000
-		                        class='button' />";
-
-                include_once('include/management/userinfo.php');
-        ?>
-
-     </div>
-
-
-
-        <div class="tabbertab" title="<?php echo t('title','BillingInfo'); ?>">
-        <?php
-                $customApplyButton = "<input type='submit' name='submit' value=".t('buttons','apply')." class='button' />";
-                include_once('include/management/userbillinfo.php');
-        ?>
-        </div>
-
-
-</div>
-
-		</form>
-
-
-<?php
-	include('include/config/logging.php');
-?>
-
-		</div>
-
-		<div id="footer">
-
-<?php
-	include 'page-footer.php';
-?>
-
-
-		</div>
-
-</div>
-</div>
-
-
+	include("menu-home.php"); ?>
+    <div class="page-content">
+        <div class="container">
+            <div class="content-area card">
+                <div class="card-innr card-innr-fix">
+					<div class="card-head">
+						<h6 class="card-title">New User</h6>
+                    </div>
+                    <div class="gaps-1x"></div>
+                    <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#account">Account Info</a></li>
+                        </li>
+					</ul>
+					<form  action="mng-new-quick.php" method="post" class="form-validate validate-modern">
+						<div class="tab-content">
+                        	<div class="tab-pane fade active show" id="account">
+								<div class="form-row">
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label class="input-item-label text-exlight">
+												Username
+											</label>
+											<div class="input-wrap"><input id="full-name" name="username"
+													class="input-bordered required" type="text"></div>
+											<input type="hidden" name="passwordType" value="Cleartext-Password"/>
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label
+												class="input-item-label text-exlight">Cleartext
+												Password</label>
+											<div class="input-wrap"><input id="full-name" name="password"
+													class="input-bordered required" type="text"></div>
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label class="input-item-label text-exlight">
+												Email
+											</label>
+											<div class="input-wrap"><input id="full-name" name="username"
+													class="input-bordered required" type="email"></div>
+										</div>
+									</div>
+								</div>
+								<div class="form-row">
+									
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label
+												class="input-item-label text-exlight">Group
+											</label>
+											<div class="select-wrapper"><?php   
+												include_once 'include/management/populate_selectbox.php';
+												populate_groups("Select Groups","groups[]");
+											?>
+											</div>
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label class="input-item-label text-exlight">
+												First Name
+											</label>
+											<div class="input-wrap"><input id="full-name" name="firstname"
+													class="input-bordered required" type="text"></div>
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label
+												class="input-item-label text-exlight">Last Name</label>
+											<div class="input-wrap"><input id="full-name" name="lastname"
+													class="input-bordered required" type="text"></div>
+										</div>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label
+												class="input-item-label text-exlight">Expiration</label>
+											<div class="input-wrap"><input id="full-name" name="expiration"
+													class="input-bordered required" type="date" required></div>
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label
+												class="input-item-label text-exlight">Max-All-Session (in months)</label>
+											<div class="input-wrap"><input id="full-name" name="maxallsession"
+													class="input-bordered required" type="number" required></div>
+										</div>
+									</div>
+								</div>
+								<div class="gaps-1x"></div>
+                        	</div>
+						</div>
+						<div class="card-footer">
+							<button type="submit" name="submit" class="btn btn-primary">Save User</button>
+						</div>
+					</form>
+                </div><!-- .card-innr -->
+            </div><!-- .card -->
+        </div><!-- .container -->
+	</div><!-- .page-content -->
+	<script src="assets/js/jquery.bundle49f7.js?ver=104"></script>	
+	<script type="text/javascript" src="library/javascript/ajax.js"></script>
+	<script type="text/javascript" src="library/javascript/ajaxGeneric.js"></script>
+	<script src="library/javascript/pages_common.js" type="text/javascript"></script>
+	<script src="library/javascript/productive_funcs.js" type="text/javascript"></script>
 </body>
-</html>
 
+</html>
 
 
 

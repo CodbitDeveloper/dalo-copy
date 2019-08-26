@@ -70,11 +70,11 @@
 						<li class="has-dropdown page-links-all"><a class="drop-toggle" href="#"><em
                                     class="ikon ikon-exchange"></em> Management</a>
                             <ul class="navbar-dropdown">
-                                <li><a href="users.html">Users</a></li>
-                                <li><a href="javascript:void(0)">Hotspots</a></li>
-                                <li><a href="javascript:void(0)">NAS</a></li>
-                                <li><a href="javascript:void(0)">User Groups</a></li>
-                                <li><a href="javascript:void(0)">Profiles</a></li>
+                                <li><a href="mng-list-all.php">Users</a></li>
+                                <li><a href="mng-hs-list.php">Hotspots</a></li>
+                                <li><a href="mng-rad-nas-list.php">NAS</a></li>
+                                <li><a href="mng-rad-profiles-list.php">Groups</a></li>
+                                <li><a href="mng-rad-usergroup-list.php">User Group Mappings</a></li>
                                 <li><a href="javascript:void(0)">Huntgroups</a></li>
                                 <li><a href="javascript:void(0)">Attributes</a></li>
                                 <li><a href="javascript:void(0)">Realms/Proxy</a></li>

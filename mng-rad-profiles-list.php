@@ -36,36 +36,16 @@
     $log = "visited page: ";
     $logQuery = "performed query for listing of records on page: ";
 
+	include ("menu-home.php");
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-<script src="library/javascript/pages_common.js" type="text/javascript"></script>
-<script src="library/javascript/rounded-corners.js" type="text/javascript"></script>
-<script src="library/javascript/form-field-tooltip.js" type="text/javascript"></script>
-<title>daloRADIUS</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="css/1.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="css/form-field-tooltip.css" type="text/css" media="screen,projection" />
-</head>
- 
- 
-<?php
-	include ("menu-mng-rad-profiles.php");
-?>
-		
-		<div id="contentnorightbar">
-		
-				<h2 id="Intro"><a href="#" onclick="javascript:toggleShowDiv('helpPage')"><?php echo t('Intro','mngradprofiles.php') ?>
-				<h144>&#x2754;</h144></a></h2>
-
-				<div id="helpPage" style="display:none;visibility:visible" >				
-					<?php echo t('helpPage','mngradprofileslist') ?>
-					<br/>
-				</div>	
-				<br/>
-				
+<div class="page-content">
+	<div class="container">
+		<div class="card content-area">
+			<div class="card-innr">
+				<div class="card-head">
+					<h4 class="card-title">Groups</h4>
+				</div>
 <?php
 
 	include 'library/opendb.php';
@@ -107,24 +87,9 @@
 
 	echo "<form name='listprofiles' method='post' action='mng-rad-profiles-del.php'>";
 	
-	echo "<table border='0' class='table1'>\n";
+	echo "<table border='0' class='table1 table table-striped'>\n";
 	echo "
-		<thead>
-			<tr>
-			<th colspan='10' align='left'>
-			Select:
-			<a class=\"table\" href=\"javascript:SetChecked(1,'profile[]','listprofiles')\">All</a>
-			<a class=\"table\" href=\"javascript:SetChecked(0,'profile[]','listprofiles')\">None</a>
-			<br/>
-			<input class='button' type='button' value='Delete' onClick='javascript:removeCheckbox(\"listprofiles\",\"mng-rad-profiles-del.php\")' />
 			<br/><br/>
-	";
-
-	if ($configValues['CONFIG_IFACE_TABLES_LISTING_NUM'] == "yes")
-		setupNumbering($numrows, $rowsPerPage, $pageNum, $orderBy, $orderType);
-
-	echo "	</th></tr>
-			</thead>
 	";
 
 	if ($orderType == "asc") {
@@ -147,7 +112,7 @@
 	</tr> </thread>";
 	while($row = $res->fetchRow()) {
 		echo "<tr>
-			<td> <input type='checkbox' name='profile[]' value='$row[0]'>
+			<td>
 				<a class='tablenovisit' href='#'
 								onclick='javascript:return false;'
                                 tooltipText=\"
@@ -174,33 +139,25 @@
 
 	include 'library/closedb.php';
 ?>
-
-
 <?php
 	include('include/config/logging.php');
 ?>
-
-		</div>
-
-		<div id="footer">
-
-<?php
-	include 'page-footer.php';
-?>
-
-
-		</div>
-
-</div>
-</div>
-
-<script type="text/javascript">
-var tooltipObj = new DHTMLgoodies_formTooltip();
-tooltipObj.setTooltipPosition('right');
-tooltipObj.setPageBgColor('#EEEEEE');
-tooltipObj.setTooltipCornerSize(15);
-tooltipObj.initFormFieldTooltip();
-</script>
-
+					</div>
+				</div>
+			</div>
+		</div><!-- .card -->
+	</div><!-- .container -->
+</div><!-- .page-content -->
+<script src="library/javascript/pages_common.js" type="text/javascript"></script>
+<script src="library/javascript/rounded-corners.js" type="text/javascript"></script>
+<script src="library/javascript/form-field-tooltip.js" type="text/javascript"></script>
+<script type="text/javascript" src="library/javascript/ajax.js"></script>
+<script type="text/javascript" src="library/javascript/ajaxGeneric.js"></script>
+<a href="mng-rad-profiles-new.php">
+	<div class="fab">
+		<i class="fas fa-plus"></i>
+	</div>
+</a>
 </body>
 </html>
+

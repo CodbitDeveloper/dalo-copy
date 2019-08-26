@@ -113,10 +113,11 @@ function addElement(enableTable, elementId) {
 
 
   if (enableTable == 1) {
-	tableElement = ""+
-		"&nbsp;&nbsp;<b>Target:</b>&nbsp;"+	
-	 	"<select id='dictTable"+num+"' name='dictValues"+dictCounter+"[]' style='width: 70px' class='form'>"+
-		"</select>";
+        tableElement = ""+
+                "<div class='form-group col-md-3'>"+
+		"<label>Target:</label>"+	
+	 	"<div class='select-wrapper'><select id='dictTable"+num+"' name='dictValues"+dictCounter+"[]' class='form input-bordered'>"+
+		"</select></div></div>";
   } else {
 	tableElement = "<input type='hidden' id='dictTable"+num+"' name='dictValues"+dictCounter+"[]' >";
   };
@@ -133,36 +134,36 @@ function addElement(enableTable, elementId) {
 
   var content = "" +
 	""+
-        "<br/><fieldset>"+
+        "<div class='form-row mt-3'>"+
+	"       <div class='form-group col-md-3'>"+
+        "            <label><b class='text-muted'>Attribute</b></label>"+
+        "            <input type='text' id='dictAttributes1' name='dictValues"+dictCounter+"[]' value='"+elemVal+"' "+
 	""+
-        "       &nbsp;<b>Attribute:</b>"+
-        "       <input type='text' id='dictAttributes1' name='dictValues"+dictCounter+"[]' value='"+elemVal+"' "+
+	"		class='form input-bordered' readonly>"+
 	""+
-	"		style='width: 220px' class='form' >"+
+        "       </div>"+
 	""+
-        "       </select>"+
-        "       <br/>"+
-	""+
-        "       &nbsp;&nbsp;"+
-        "       &nbsp;"+
-        "       <b>Value:</b>"+
-        "       <input type='text' id='dictValues"+num+"' name='dictValues"+dictCounter+"[]' style='width: 220px' class='form' >"+
+        "      <div class='form-group col-md-3'>"+
+        "       <label>Value</label>"+
+        "       <input type='text' id='dictValues"+num+"' name='dictValues"+dictCounter+"[]' class='form input-bordered' >"+
 	""+
         "       <span id='dictHelper"+num+"'>"+
         "	"+
         "       </span>"+
-	""+
-        "       &nbsp;<b>Op:</b>"+
-        "       <select id='dictOP"+num+"' name='dictValues"+dictCounter+"[]' style='width: 45px' class='form' >"+
-        "       </select>"+
-	""+
+        "       </div>"+
+        "       <div class='form-group col-md-3'>" +
+        "       <label>Op</label>"+
+        "       <div class='select-wraper'>" +
+        "       <select id='dictOP"+num+"' name='dictValues"+dictCounter+"[]' class='form input-bordered' >"+
+        "       </select></div>"+
+	"       </div>"+
 	tableElement+
 	""+
-        "     <br/>"+
+        ""+
 	""+
         "     <div id='dictInfo"+num+"' style='display:none;visibility:visible'>"+
 	""+
-        "                <br/>"+
+        ""+
 	""+
         "                <span id='dictTooltip"+num+"'>"+
         "                        <b>Description:</b>"+
@@ -170,19 +171,17 @@ function addElement(enableTable, elementId) {
         "                <br/>"+
 	""+
         "                <span id='dictType"+num+"'>"+
-        "                        <b>Type:<b/>"+
+        "                        <b>Type<b/>"+
         "                </span>"+
 	""+
         "        <br/></div>"+
 	""+
         ""+
-	"<br/><hr>"+
-	"&nbsp;<a href='#top'><img src='images/icons/arrow_up.png' alt='>' border='0' /></a>"+
-	"<input type='button' name='removeAttributes' value='Remove' onclick=\"javascript:removeElement(\'"+divIdName+"\');\" class='button'>"+
-	"<input type='button' name='infoAttribute' value='Info' onclick=\"javascript:toggleShowDiv(\'dictInfo"+num+"\');\" class='button'>"+
-        "</fieldset>"+
-	"<div id='chooserSpan"+num+"' class='dateChooser select-free' style='display: none; visibility: hidden; width: 160px;'></div>"+
-	"<br/>";
+	""+
+	"<a href='javascript:void(0)' name='removeAttributes' onclick=\"javascript:removeElement(\'"+divIdName+"\');\" class='button badge badge-danger'>Remove</a>&nbsp;"+
+	"<a href='javascript:void(0)' name='infoAttribute' onclick=\"javascript:toggleShowDiv(\'dictInfo"+num+"\');\" class='button badge badge-primary'>Info</a>"+
+        "</div>"+
+	"<div id='chooserSpan"+num+"' class='dateChooser select-free' style='display: none; visibility: hidden; width: 160px;'></div>";
 
 
   attributeDiv.innerHTML = content;

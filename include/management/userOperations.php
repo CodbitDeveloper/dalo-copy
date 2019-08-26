@@ -75,8 +75,9 @@ function userDisable($username, $divContainer) {
 	$users = implode(',', $username);
 	
 	printqn("
-    	var divContainer = document.getElementById('{$divContainer}');
-        divContainer.innerHTML += '<div class=\"success\">User(s) <b>$users</b> are now disabled.</div>';
+    	setTimeout(function(){
+			window.location.reload();
+		}, 500)
 	");
 
 	include '../../library/closedb.php';
@@ -109,8 +110,9 @@ function userEnable($username, $divContainer) {
 	$users = implode(',', $username);
 	
 	printqn("
-    	var divContainer = document.getElementById('{$divContainer}');
-        divContainer.innerHTML += '<div class=\"success\">User(s) <b>$users</b> are now enabled.</div>';
+		setTimeout(function(){
+			window.location.reload();
+		}, 500)
 	");
 
 

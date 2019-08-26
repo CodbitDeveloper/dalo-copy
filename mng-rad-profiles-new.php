@@ -102,9 +102,10 @@
 	include_once('library/config_read.php');
     $log = "visited page: ";
 
+	include("menu-home.php");
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 
@@ -185,4 +186,100 @@
 
 
 </body>
-</html>
+</html-->
+<div class="page-content">
+        <div class="container">
+            <div class="content-area card">
+                <div class="card-innr card-innr-fix">
+					<div class="card-head">
+						<h6 class="card-title">New Group</h6>
+                    </div>
+                    <div class="gaps-1x"></div>
+                    <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#account">Group Info</a></li>
+                        </li>
+					</ul>
+					<form  action="mng-rad-profiles-new.php" method="post" class="form-validate validate-modern">
+						<div class="tab-content">
+                        	<div class="tab-pane fade active show" id="account">
+								<div class="form-row">
+									<div class="form-group col-md-5 col-sm-12">
+										<div class="input-item input-with-label"><label class="input-item-label text-exlight">
+												Group Name
+											</label>
+											<div class="input-wrap"><input name='profile'
+													class="input-bordered required" type="text"></div>
+										</div>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label class="input-item-label text-exlight">
+												Select Vendor
+											</label>
+											<div class="select-wrapper">
+												<select id='dictVendors0' onchange="getAttributesList(this,'dictAttributesDatabase')" class='form input-bordered' >
+													<option value=''>Select Vendor...</option>
+													<?php
+														include 'library/opendb.php';
+
+														$sql = "SELECT distinct(Vendor) as Vendor FROM ".
+															$configValues['CONFIG_DB_TBL_DALODICTIONARY']." WHERE Vendor>'' ORDER BY Vendor ASC";
+														$res = $dbSocket->query($sql);
+
+														while($row = $res->fetchRow()) {
+															echo "<option value=$row[0]>$row[0]</option>";
+														}
+
+														include 'library/closedb.php';
+													?>
+												</select>
+											</div>
+											
+											<input disabled type='hidden' id='dictAttributesCustom'/>
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label class="input-item-label text-exlight">
+												Attributes
+											</label>
+											<div class="select-wrapper">
+												<select id='dictAttributesDatabase' class='form input-bordered' >
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label class="input-item-label text-exlight">
+												&nbsp;
+											</label>
+											<div class="input-wrap">
+												<button type="button" class="button btn btn-outline btn-primary" name='addAttributes' value='Add Attribute' id='addAttributesVendor'
+												onclick="javascript:parseAttribute(1);">Add Attribute</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-row">
+									<input type="hidden" value="0" id="divCounter" />
+									<div id="divContainer"> </div> <br/>
+								</div>
+								<input type="hidden" value="0" id="divCounter" />
+								<div id="divContainer"> </div> <br/>
+								<div class="gaps-1x"></div>
+                        	</div>
+						</div>
+						<div class="card-footer">
+							<button type="submit" name="submit" class="btn btn-primary">Save Group</button>
+						</div>
+					</form>
+                </div><!-- .card-innr -->
+            </div><!-- .card -->
+        </div><!-- .container -->
+	</div><!-- .page-content -->
+	<script src="assets/js/jquery.bundle49f7.js?ver=104"></script>	
+	<script type="text/javascript" src="library/javascript/ajax.js"></script>
+	<script type="text/javascript" src="library/javascript/ajaxGeneric.js"></script>
+	<script src="library/javascript/pages_common.js" type="text/javascript"></script>
+	<script src="library/javascript/productive_funcs.js" type="text/javascript"></script>
+	<script type="text/javascript" src="library/javascript/dynamic_attributes.js"></script>

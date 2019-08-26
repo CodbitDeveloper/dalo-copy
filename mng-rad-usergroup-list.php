@@ -36,36 +36,15 @@
     $log = "visited page: ";
     $logQuery = "performed query for listing of records on page: ";
 
-
+	include ("menu-home.php");
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-<script src="library/javascript/pages_common.js" type="text/javascript"></script>
-<script src="library/javascript/rounded-corners.js" type="text/javascript"></script>
-<script src="library/javascript/form-field-tooltip.js" type="text/javascript"></script>
-<title>daloRADIUS</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="css/1.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="css/form-field-tooltip.css" type="text/css" media="screen,projection" />
-</head>
- 
- 
-<?php
-	include ("menu-mng-rad-usergroup.php");
-?>
-
-	<div id="contentnorightbar">
-		
-		<h2 id="Intro"><a href="#" onclick="javascript:toggleShowDiv('helpPage')"><?php echo t('Intro','mngradusergrouplist') ?>
-		<h144>&#x2754;</h144></a></h2>
-
-		<div id="helpPage" style="display:none;visibility:visible" >				
-			<?php echo t('helpPage','mngradusergrouplist') ?>
-			<br/>
-		</div>	
-		<br/>
-
+<div class="page-content">
+	<div class="container">
+		<div class="card content-area">
+			<div class="card-innr">
+				<div class="card-head">
+					<h4 class="card-title">User group mapping</h4>
+				</div>
 <?php
 
 	include 'library/opendb.php';
@@ -98,28 +77,7 @@
 
 	echo "<form name='listallusergroup' method='post' action='mng-rad-usergroup-del.php'>";
 	
-	echo "<table border='0' class='table1'>\n";
-	echo "
-		<thead>
-			<tr>
-			<th colspan='10' align='left'>
-
-			Select:
-			<a class=\"table\" href=\"javascript:SetChecked(1,'usergroup[]','listallusergroup')\">All</a>
-			<a class=\"table\" href=\"javascript:SetChecked(0,'usergroup[]','listallusergroup')\">None</a>
-			<br/>
-			<input class='button' type='button' value='Delete' onClick='javascript:removeCheckbox(\"listallusergroup\",\"mng-rad-usergroup-del.php\")' />
-			<br/><br/>
-
-	";
-
-
-	if ($configValues['CONFIG_IFACE_TABLES_LISTING_NUM'] == "yes")
-		setupNumbering($numrows, $rowsPerPage, $pageNum, $orderBy, $orderType);
-
-	echo "	</th></tr>
-			</thead>
-	";
+	echo "<table border='0' class='table1 table table-striped'>\n<br/><br/>";
 
 	if ($orderType == "asc") {
 		$orderTypeNextPage = "desc";
@@ -129,7 +87,7 @@
 
 	echo "<thread> <tr>
 		<th scope='col'>
-		<a title='Sort' class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?orderBy=username&orderType=$orderTypeNextPage\">
+		<input type='checkbox' onchange='handleChange(this)'>&nbsp;&nbsp;<a title='Sort' class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?orderBy=username&orderType=$orderTypeNextPage\">
 		".t('all','Username')."</a>
 		</th>
 
@@ -151,7 +109,7 @@
 	</tr> </thread>";
 	while($row = $res->fetchRow()) {
 		echo "<tr>
-			<td> <input type='checkbox' name='usergroup[]' value='$row[0]||$row[1]'> $row[0] </td>
+			<td> <input type='checkbox' name='usergroup[]' value='$row[0]||$row[1]'>&nbsp;&nbsp; $row[0] </td>
 			<td> $row[3] $row[4] </td>
 			<td> <a class='tablenovisit' href='#'
 								onclick='javascript:return false;'
@@ -187,28 +145,26 @@
 <?php
 	include('include/config/logging.php');
 ?>
-
-		</div>
-	
-		<div id="footer">
-
-<?php
-	include 'page-footer.php';
-?>
-
-
-		</div>
-
-</div>
-</div>
-
+					</div>
+				</div>
+			</div>
+		</div><!-- .card -->
+	</div><!-- .container -->
+</div><!-- .page-content -->
+<script src="library/javascript/pages_common.js" type="text/javascript"></script>
+<script src="library/javascript/rounded-corners.js" type="text/javascript"></script>
+<script src="library/javascript/form-field-tooltip.js" type="text/javascript"></script>
+<script type="text/javascript" src="library/javascript/ajax.js"></script>
+<script type="text/javascript" src="library/javascript/ajaxGeneric.js"></script>
 <script type="text/javascript">
-var tooltipObj = new DHTMLgoodies_formTooltip();
-tooltipObj.setTooltipPosition('right');
-tooltipObj.setPageBgColor('#EEEEEE');
-tooltipObj.setTooltipCornerSize(15);
-tooltipObj.initFormFieldTooltip();
+	function handleChange(e){
+		if(e.checked == true){
+			SetChecked(1,'usergroup[]','listallusergroup')
+		}else{
+			SetChecked(0,'usergroup[]','listallusergroup')
+		}
+	}
 </script>
-
 </body>
 </html>
+

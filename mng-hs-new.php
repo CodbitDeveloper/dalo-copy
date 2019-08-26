@@ -103,128 +103,64 @@
     $log = "visited page: ";
 
 ?>
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-<title>daloRADIUS</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="css/1.css" type="text/css" media="screen,projection" />
-</head>
-<script src="library/javascript/pages_common.js" type="text/javascript"></script>
-<?php
-	include_once ("library/tabber/tab-layout.php");
-?>
- 
-<?php
-
-	include ("menu-mng-hs.php");
-	
-?>
-
-<div id="contentnorightbar">
-
-	<h2 id="Intro"><a href="#" onclick="javascript:toggleShowDiv('helpPage')"><?php echo t('Intro','mnghsnew.php') ?>
-	<h144>&#x2754;</h144></a></h2>
-	
-	<div id="helpPage" style="display:none;visibility:visible" >
-		<?php echo t('helpPage','mnghsnew') ?>
-		<br/>
-	</div>
-	<?php
-		include_once('include/management/actionMessages.php');
-	?>
-
-	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-
-<div class="tabber">
-
-	<div class="tabbertab" title="<?php echo t('title','HotspotInfo'); ?>">
-
-	<fieldset>
-
-		<h302> <?php echo t('title','HotspotInfo'); ?> </h302>
-		<br/>
-
-		<ul>
-
-		<li class='fieldset'>
-		<label for='name' class='form'><?php echo t('all','HotSpotName') ?></label>
-		<input name='name' type='text' id='name' value='' tabindex=100 />
-		<img src='images/icons/comment.png' alt='Tip' border='0' onClick="javascript:toggleShowDiv('hotspotNameTooltip')" /> 
-		
-		<div id='hotspotNameTooltip'  style='display:none;visibility:visible' class='ToolTip'>
-			<img src='images/icons/comment.png' alt='Tip' border='0' />
-			<?php echo t('Tooltip','hotspotNameTooltip') ?>
-		</div>
-		</li>
-
-		<li class='fieldset'>
-		<label for='macaddress' class='form'><?php echo t('all','MACAddress') ?></label>
-		<input name='macaddress' type='text' id='macaddress' value='' tabindex=101 />
-		<img src='images/icons/comment.png' alt='Tip' border='0' onClick="javascript:toggleShowDiv('hotspotMacaddressTooltip')" /> 
-		
-		<div id='hotspotMacaddressTooltip'  style='display:none;visibility:visible' class='ToolTip'>
-			<img src='images/icons/comment.png' alt='Tip' border='0' />
-			<?php echo t('Tooltip','hotspotMacaddressTooltip') ?>
-		</div>
-		</li>
-
-		<li class='fieldset'>
-		<label for='geocode' class='form'><?php echo t('all','Geocode') ?></label>
-		<input name='geocode' type='text' id='geocode' value='' tabindex=102 />
-		<img src='images/icons/comment.png' alt='Tip' border='0' onClick="javascript:toggleShowDiv('geocodeTooltip')" /> 
-		
-		<div id='geocodeTooltip'  style='display:none;visibility:visible' class='ToolTip'>
-			<img src='images/icons/comment.png' alt='Tip' border='0' />
-			<?php echo t('Tooltip','geocodeTooltip') ?>
-		</div>
-		</li>
-	
-		<li class='fieldset'>
-		<br/>
-		<hr><br/>
-		<input type='submit' name='submit' value='<?php echo t('buttons','apply') ?>' tabindex=10000 class='button' />
-		</li>
-
-		</ul>
-	</fieldset>
-
-	</div>
-
-
-	<div class="tabbertab" title="<?php echo t('title','ContactInfo'); ?>">
-
-<?php
-	include_once('include/management/contactinfo.php');
-?>
-
-	</div>
-
-</div>
-
-	</form>
-
-<?php
-	include('include/config/logging.php');
-?>
-		
-		</div>
-		
-		<div id="footer">
-		
-<?php
-	include 'page-footer.php';
-?>
-
-
-		</div>
-
-</div>
-</div>
-
-
+<?php include("menu-home.php"); ?>
+<div class="page-content">
+        <div class="container">
+            <div class="content-area card">
+                <div class="card-innr card-innr-fix">
+					<div class="card-head">
+						<h6 class="card-title">New User</h6>
+                    </div>
+                    <div class="gaps-1x"></div>
+                    <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#info">Hotspot Info</a></li>
+                        </li>
+					</ul>
+					<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="form-validate validate-modern">
+						<div class="tab-content">
+                        	<div class="tab-pane fade active show" id="info">
+								<div class="form-row">
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label class="input-item-label text-exlight">
+												Hotspot Name
+											</label>
+											<div class="input-wrap"><input id="full-name" name="name"
+													class="input-bordered required" type="text"></div>
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label
+												class="input-item-label text-exlight">MAC 
+											Address</label>
+											<div class="input-wrap"><input id="full-name" name="macaddress"
+													class="input-bordered required" type="text"></div>
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label class="input-item-label text-exlight">
+												Geocode
+											</label>
+											<div class="input-wrap"><input id="full-name" name="geocode"
+													class="input-bordered required" type="text"></div>
+										</div>
+									</div>
+								</div>
+								<div class="gaps-1x"></div>
+                        	</div>
+						</div>
+						<div class="card-footer">
+							<button type="submit" name="submit" class="btn btn-primary">Save Hotspot</button>
+						</div>
+					</form>
+                </div><!-- .card-innr -->
+            </div><!-- .card -->
+        </div><!-- .container -->
+	</div><!-- .page-content -->
+	<script src="assets/js/jquery.bundle49f7.js?ver=104"></script>	
+	<script type="text/javascript" src="library/javascript/ajax.js"></script>
+	<script type="text/javascript" src="library/javascript/ajaxGeneric.js"></script>
+	<script src="library/javascript/pages_common.js" type="text/javascript"></script>
+	<script src="library/javascript/productive_funcs.js" type="text/javascript"></script>
 </body>
 </html>
 

@@ -98,9 +98,11 @@
     $log = "visited page: ";
 
 	
+	
+	include("menu-home.php"); 
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 
@@ -112,14 +114,6 @@
 
 </head>
 
-
-<?php
-	include_once ("library/tabber/tab-layout.php");
-?> 
- 
-<?php
-	include ("menu-mng-rad-nas.php");
-?>
 
 	<div id="contentnorightbar">
 	
@@ -243,4 +237,117 @@
 
 
 </body>
-</html>
+</html-->
+	<div class="page-content">
+        <div class="container">
+            <div class="content-area card">
+                <div class="card-innr card-innr-fix">
+					<div class="card-head">
+						<h6 class="card-title">New NAS</h6>
+                    </div>
+                    <div class="gaps-1x"></div>
+                    <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#account">NAS Info</a></li>
+                        </li>
+					</ul>
+					<form  action="mng-rad-nas-new.php" method="post" class="form-validate validate-modern">
+						<div class="tab-content">
+                        	<div class="tab-pane fade active show" id="account">
+								<div class="form-row">
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label class="input-item-label text-exlight">
+												NAS Host (I.P)
+											</label>
+											<div class="input-wrap"><input id="full-name" name="nashost"
+													class="input-bordered required" type="text"></div>
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label
+												class="input-item-label text-exlight">NAS Secret</label>
+											<div class="input-wrap"><input id="full-name" name='nassecret' value=''
+													class="input-bordered required" type="password"></div>
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label
+												class="input-item-label text-exlight">NAS Type
+											</label>
+											<div class="select-wrapper">
+												<select class='form input-bordered' name="nastype">
+													<option value="" selected disabled hidden>Select Type...</option>
+													<option value="other">other</option>
+													<option value="cisco">cisco</option>
+													<option value="livingston">livingston</option>
+													<option value="computon">computon</option>
+													<option value="max40xx">max40xx</option>
+													<option value="multitech">multitech</option>
+													<option value="natserver">natserver</option>
+													<option value="pathras">pathras</option>
+													<option value="patton">patton</option>
+													<option value="portslave">portslave</option>
+													<option value="tc">tc</option>
+													<option value="usrhiper">usrhiper</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-row">
+									
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label
+												class="input-item-label text-exlight">NAS Name
+											</label>
+											<div class="input-wrap"><input id="full-name" name="nasname"
+													class="input-bordered required" type="text"></div>
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label class="input-item-label text-exlight">
+												NAS Ports
+											</label>
+											<div class="input-wrap"><input id="full-name" name="nasports"
+													class="input-bordered required" type="text"></div>
+										</div>
+									</div>
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label
+												class="input-item-label text-exlight">NAS Community</label>
+											<div class="input-wrap"><input id="full-name" name="nascommunity"
+													class="input-bordered required" type="text"></div>
+										</div>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-4 col-sm-12">
+										<div class="input-item input-with-label"><label
+												class="input-item-label text-exlight">NAS Virtual Server</label>
+											<div class="input-wrap"><input id="full-name" name="nasvirtualserver"
+													class="input-bordered required" type="text"></div>
+										</div>
+									</div>
+									<div class="form-group col-md-8 col-sm-12">
+										<div class="input-item input-with-label"><label
+												class="input-item-label text-exlight">Description</label>
+											<div class="input-wrap"><input id="full-name" name="nasdescription"
+													class="input-bordered required" type="text"></div>
+										</div>
+									</div>
+								</div>
+								<div class="gaps-1x"></div>
+                        	</div>
+						</div>
+						<div class="card-footer">
+							<button type="submit" name="submit" class="btn btn-primary">Save NAS</button>
+						</div>
+					</form>
+                </div><!-- .card-innr -->
+            </div><!-- .card -->
+        </div><!-- .container -->
+	</div><!-- .page-content -->
+	<script src="assets/js/jquery.bundle49f7.js?ver=104"></script>	
+	<script type="text/javascript" src="library/javascript/ajax.js"></script>
+	<script type="text/javascript" src="library/javascript/ajaxGeneric.js"></script>
+	<script src="library/javascript/pages_common.js" type="text/javascript"></script>
+	<script src="library/javascript/productive_funcs.js" type="text/javascript"></script>

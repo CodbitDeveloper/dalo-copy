@@ -36,34 +36,16 @@
     $log = "visited page: ";
     $logQuery = "performed query for listing of records on page: ";
 
-
-
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-<title>daloRADIUS</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="css/1.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="css/form-field-tooltip.css" type="text/css" media="screen,projection" />
-</head>
-<script src="library/javascript/pages_common.js" type="text/javascript"></script>
-<script src="library/javascript/rounded-corners.js" type="text/javascript"></script>
-<script src="library/javascript/form-field-tooltip.js" type="text/javascript"></script>
-<?php
-	include ("menu-mng-rad-nas.php");
+	include ("menu-home.php");
 ?>
 		
-		<div id="contentnorightbar">
-		
-				<h2 id="Intro"><a href="#" onclick="javascript:toggleShowDiv('helpPage')"><?php echo t('Intro','mngradnaslist.php') ?>
-				<h144>&#x2754;</h144></a></h2>
-				
-				<div id="helpPage" style="display:none;visibility:visible" >
-					<?php echo t('helpPage','mngradnaslist') ?>
-					<br/>
+<div class="page-content">
+	<div class="container">
+		<div class="card content-area">
+			<div class="card-innr">
+				<div class="card-head">
+					<h4 class="card-title">Hotspots</h4>
 				</div>
-				<br/>
 
 
 <?php
@@ -91,18 +73,13 @@
 
         echo "<form name='listallnas' method='post' action='mng-rad-nas-del.php'>";
 
-	echo "<table border='0' class='table1'>\n";
+	echo "<table border='0' class='table1 table table-striped'>\n";
 	echo "
 					<thead>
-                                                        <tr>
+                        <tr>
                                                         <th colspan='10' align='left'>
-
-                                Select:
-                                <a class=\"table\" href=\"javascript:SetChecked(1,'nashost[]','listallnas')\">All</a>
-
-                                <a class=\"table\" href=\"javascript:SetChecked(0,'nashost[]','listallnas')\">None</a>
                         <br/>
-                                <input class='button' type='button' value='Delete' onClick='javascript:removeCheckbox(\"listallnas\",\"mng-rad-nas-del.php\")' />
+                                <input class='button btn btn-danger' type='button' value='Delete' onClick='javascript:removeCheckbox(\"listallnas\",\"mng-rad-nas-del.php\")' />
                                 <br/><br/>
 
 
@@ -124,7 +101,7 @@
 
 	echo "<thread> <tr>
 		<th scope='col'>
-		<a title='Sort' class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?orderBy=id&orderType=$orderType\">
+		<input type='checkbox' onchange='handleChange(this)'>&nbsp;&nbsp;<a title='Sort' class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?orderBy=id&orderType=$orderType\">
 		".t('all','NasID')."</a>
 		<br/>
 		</th>
@@ -179,7 +156,7 @@
 	</tr> </thread>";
 	while($row = $res->fetchRow()) {
 		echo "<tr>
-                                <td> <input type='checkbox' name='nashost[]' value='$row[1]'> $row[0] </td>
+                                <td> <input type='checkbox' name='nashost[]' value='$row[1]'>&nbsp;&nbsp; $row[0] </td>
                                 <td> <a class='tablenovisit' href='#'
 								onclick='javascript:return false;'
                                 tooltipText=\"
@@ -223,28 +200,32 @@
 <?php
 	include('include/config/logging.php');
 ?>
-			
-	</div>
-	
-	<div id="footer">
-	
-							<?php
-	include 'page-footer.php';
-?>
-
 		
-		</div>
-		
-</div>
-</div>
-
+					</div>
+				</div>
+			</div>
+		</div><!-- .card -->
+	</div><!-- .container -->
+</div><!-- .page-content -->
+<script src="library/javascript/pages_common.js" type="text/javascript"></script>
+<script src="library/javascript/rounded-corners.js" type="text/javascript"></script>
+<script src="library/javascript/form-field-tooltip.js" type="text/javascript"></script>
+<script type="text/javascript" src="library/javascript/ajax.js"></script>
+<script type="text/javascript" src="library/javascript/ajaxGeneric.js"></script>
 <script type="text/javascript">
-var tooltipObj = new DHTMLgoodies_formTooltip();
-tooltipObj.setTooltipPosition('right');
-tooltipObj.setPageBgColor('#EEEEEE');
-tooltipObj.setTooltipCornerSize(15);
-tooltipObj.initFormFieldTooltip();
+	function handleChange(e){
+		if(e.checked == true){
+			SetChecked(1,'nashost[]','listallnas')
+		}else{
+			SetChecked(0,'nashost[]','listallnas')
+		}
+	}
 </script>
 
+<a href="mng-rad-nas-new.php">
+	<div class="fab">
+		<i class="fas fa-plus"></i>
+	</div>
+</a>
 </body>
 </html>

@@ -28,28 +28,28 @@ function setupLinks($pageNum, $maxPage, $orderBy, $orderType, $request1="", $req
 	// on page one
 	if ($pageNum > 1)       {
 		$page = $pageNum - 1;
-		$prev = " <a href=\"?page=$page&orderBy=$orderBy&orderType=$orderType$request1$request2$request3\"><img alt='[Prev]' src='images/icons/r.gif' border='0' /></a> ";
-		$first = "<a href=\"?page=1&orderBy=$orderBy&orderType=$orderType$request1$request2$request3\"><img alt='[First Page]' src='images/icons/rw.gif' border='0' /></a> ";
+		$prev = " <a href=\"?page=$page&orderBy=$orderBy&orderType=$orderType$request1$request2$request3\"><span class='btn btn-outline btn-primary w-auto d-inline'><i class='fas fa-arrow-left text-muted'></i></span></a> ";
+		$first = "<a href=\"?page=1&orderBy=$orderBy&orderType=$orderType$request1$request2$request3\"><span class='btn btn-outline btn-primary w-auto d-inline'><i class='fas fa-backward text-muted'></i></span></a> ";
 	} else {
-		$prev = "<img alt=' [Prev] ' src='images/icons/r_non.gif' />";
-		$first = "<img alt=' [First Page] ' src='images/icons/rw_non.gif' />";
+		$prev = "<span class='btn btn-outline btn-primary w-auto d-inline'><i class='fas fa-arrow-left text-muted'></i></span>";
+		$first = "<span class='btn btn-outline btn-primary w-auto d-inline'><i class='fas fa-backward text-muted'></i></span>";
 	}
 
 
 	if ($pageNum < $maxPage) {
 		$page = $pageNum + 1;
-		$next = " <a class='novisit' href=\"?page=$page&orderBy=$orderBy&orderType=$orderType$request1$request2$request3\"><img alt='[Next]' src='images/icons/f.gif' border='0' /></a> ";
-		$last = " <a class='tablenovisit' href=\"?page=$maxPage&orderBy=$orderBy&orderType=$orderType$request1$request2$request3\"><img alt='[Next]' src='images/icons/ff.gif' border='0' /></a> ";
+		$next = " <a class='novisit' href=\"?page=$page&orderBy=$orderBy&orderType=$orderType$request1$request2$request3\"><span class='btn btn-outline btn-primary w-auto d-inline'><i class='fas fa-arrow-right text-muted'></i></span></a> ";
+		$last = " <a class='tablenovisit' href=\"?page=$maxPage&orderBy=$orderBy&orderType=$orderType$request1$request2$request3\"><span class='btn btn-outline btn-primary w-auto d-inline'><i class='fas fa-forward text-muted'></i></span></a> ";
 
 	} else {
-		$next = "<img alt=' [Next] ' src='images/icons/f_non.gif' />";      // we're on the last page, don't enable 'next' link
-		$last = "<img alt=' [Last Page] ' src='images/icons/ff_non.gif' />"; // nor 'last page' link
+		$next = "<span class='btn btn-outline btn-primary w-auto d-inline'><i class='fas fa-arrow-right text-muted'></i></span>";      // we're on the last page, don't enable 'next' link
+		$last = "<span class='btn btn-outline btn-primary w-auto d-inline'><i class='fas fa-forward text-muted'></i></span>"; // nor 'last page' link
 	}
 
 	$greyColorBeg = "<font color='#5F5A59'>";
 	$greyColorEnd = "</font>";
 
-	echo "$greyColorBeg Page $pageNum $greyColorEnd of $greyColorBeg $maxPage $greyColorEnd<br/>";
+	echo "$greyColorBeg Page $pageNum $greyColorEnd of $greyColorBeg $maxPage $greyColorEnd<br/><br/>";
 	echo "$first $prev $next $last "; //$greyColorBeg $pageNum $greyColorEnd of $greyColorBeg $maxPage $greyColorEnd";
 	echo "<br/>";
 
